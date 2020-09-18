@@ -2,11 +2,11 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Stryker.Core.Mutants.NodeOrchestrators
+namespace Stryker.Core.Mutants.NodeOrchestrator
 {
     internal class ArrayInitializerOrchestrator : NodeSpecificOrchestrator<InitializerExpressionSyntax>
     {
-        protected override bool CanHandle(InitializerExpressionSyntax t)
+        protected override bool CanHandleThis(InitializerExpressionSyntax t)
         {
             return (t.Kind() == SyntaxKind.ArrayInitializerExpression && t.Expressions.Count > 0);
         }

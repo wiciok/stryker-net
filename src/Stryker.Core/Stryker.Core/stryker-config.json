@@ -1,0 +1,13 @@
+{
+    "stryker-config": {
+      "test-projects": [
+        "../Stryker.Core.UnitTest2/Stryker.Core.UnitTest2.csproj",
+        "../Stryker.Core.UnitTest/Stryker.Core.UnitTest.csproj"
+      ],
+      "reporters": [
+          "html",
+          "progress",
+          "cleartext"
+      ]
+    }
+  }

@@ -11,7 +11,6 @@
         ConsoleReport,
         Json,
         Html,
-        Dashboard,
-        Baseline
+        Dashboard
     }
 }

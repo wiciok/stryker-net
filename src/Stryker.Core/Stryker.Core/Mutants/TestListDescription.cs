@@ -22,8 +22,8 @@ namespace Stryker.Core.Mutants
     public class TestListDescription : ITestListDescription
     {
 
-        public List<TestDescription> Tests { get; private set; }
-
+        public List<TestDescription> Tests { get => _tests; }
+        private List<TestDescription> _tests;
         private static readonly ITestListDescription EveryTests;
         private static readonly ITestListDescription NoTestInstance;
 
@@ -35,41 +35,41 @@ namespace Stryker.Core.Mutants
 
         public TestListDescription()
         {
-            Tests = null;
+            _tests = null;
         }
 
         public TestListDescription(IEnumerable<TestDescription> testDescriptions)
         {
-            Tests = testDescriptions == null ? new List<TestDescription>() : testDescriptions.ToList();
+            _tests = testDescriptions == null ? new List<TestDescription>() : testDescriptions.ToList();
         }
 
-        public bool IsEveryTest => Tests == null || (Tests.Count == 1 && Tests[0].IsAllTests);
+        public bool IsEveryTest => _tests == null || (_tests.Count == 1 && _tests[0].IsAllTests);
 
-        public bool IsEmpty => Tests != null && Tests.Count == 0;
+        public bool IsEmpty => _tests != null && _tests.Count == 0;
 
-        public int Count => Tests?.Count ?? 0;
+        public int Count => _tests?.Count ?? 0;
 
         public void Add(TestDescription test)
         {
-            if (Tests != null && IsEveryTest)
+            if (_tests != null && IsEveryTest)
             {
                 return;
             }
-            if (Tests == null || test.IsAllTests)
+            if (_tests == null || test.IsAllTests)
             {
-                Tests = new List<TestDescription>(1);
+                _tests = new List<TestDescription>(1);
             }
-            Tests.Add(test);
+            _tests.Add(test);
         }
 
         public bool Contains(string id)
         {
-            return IsEveryTest || Tests.Any(t => t.Guid == id);
+            return IsEveryTest || _tests.Any(t => t.Guid == id);
         }
 
         public bool Contains(TestDescription test)
         {
-            return IsEveryTest || Tests.Any(t => t.Equals(test));
+            return IsEveryTest || _tests.Any(t => t.Equals(test));
         }
 
         public static ITestListDescription EveryTest()
@@ -84,7 +84,7 @@ namespace Stryker.Core.Mutants
 
         public IReadOnlyList<TestDescription> GetList()
         {
-            return Tests;
+            return _tests;
         }
 
         public void AddTests(ITestListDescription otherFailingTests)
@@ -99,12 +99,12 @@ namespace Stryker.Core.Mutants
 
         public bool ContainsAny(ITestListDescription other)
         {
-            return Tests?.Any(other.Contains) == true;
+            return _tests?.Any(other.Contains) == true;
         }
 
         public bool ContainsAny(IReadOnlyList<TestDescription> usedTests)
         {
-            return Tests?.Any(usedTests.Contains) == true;
+            return _tests?.Any(usedTests.Contains) == true;
         }
     }
 }

@@ -41,11 +41,7 @@ namespace Stryker.Core.Mutators
                 { LinqExpression.ThenBy, LinqExpression.ThenByDescending },
                 { LinqExpression.ThenByDescending, LinqExpression.ThenBy },
                 { LinqExpression.Reverse, LinqExpression.AsEnumerable },
-                { LinqExpression.AsEnumerable, LinqExpression.Reverse },
-                { LinqExpression.Union, LinqExpression.Intersect },
-                { LinqExpression.Intersect, LinqExpression.Union },
-                { LinqExpression.Concat, LinqExpression.Except },
-                { LinqExpression.Except, LinqExpression.Concat }
+                { LinqExpression.AsEnumerable, LinqExpression.Reverse }
             };
             RequireArguments = new HashSet<LinqExpression>
             {
@@ -56,8 +52,6 @@ namespace Stryker.Core.Mutators
                 LinqExpression.OrderByDescending,
                 LinqExpression.ThenBy,
                 LinqExpression.ThenByDescending,
-                LinqExpression.Union,
-                LinqExpression.Intersect
             };
         }
 
@@ -163,10 +157,6 @@ namespace Stryker.Core.Mutators
         Sum,
         Count,
         ThenBy,
-        ThenByDescending,
-        Union,
-        Intersect,
-        Concat,
-        Except
+        ThenByDescending
     }
 }

@@ -104,10 +104,9 @@ Stryker supports a variety of mutators, which are listed below. Do you have a su
 ## Linq Methods
 |      Original         |       Mutated         |
 | --------------------- | --------------------- |
-| `SingleOrDefault()`  | `Single()`             |
-| `Single()`           | `SingleOrDefault()`    |
-| `FirstOrDefault()`   | `First()`              |
-| `First()`             | `FirstOrDefault()`    |
+| `SingleOrDefault()`  | `FirstOrDefault()`    |
+| `FirstOrDefault()`   | `SingleOrDefault()`   |
+| `First()`             | `Last()`              |
 | `Last()`              | `First()`             |
 | `All()`               | `Any()`               |
 | `Any()`               | `All()`               |
@@ -120,16 +119,8 @@ Stryker supports a variety of mutators, which are listed below. Do you have a su
 | `Sum()`               | `Max()`*               |
 | `Count()`             | `Sum()`               |
 | `Average()`           | `Min()`               |
-| `OrderBy()`           | `OrderByDescending()` |
-| `OrderByDescending()` | `OrderBy()`           |
-| `ThenBy()`            | `ThenByDescending()`  |
-| `ThenByDescending()`  | `ThenBy()`            |
 | `Reverse()`           | `AsEnumerable()`     |
 | `AsEnumerable()`     | `Reverse()`           |
-| `Union()`            | `Intersect()`         |
-| `Intersect()`        | `Union()`             |
-| `Concat()`           | `Except()`            |
-| `Except()`           | `Concat()`            |
 
 `* Sum() was mutated to Count() in previous versions; this change reduces compilation errors.`
 

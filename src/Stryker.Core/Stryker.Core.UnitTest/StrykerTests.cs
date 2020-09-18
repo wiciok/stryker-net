@@ -45,13 +45,12 @@ namespace Stryker.Core.UnitTest
 
             mutationTestProcessMock.Setup(x => x.Mutate());
             mutationTestProcessMock.Setup(x => x.GetCoverage());
-            mutationTestProcessMock.Setup(x => x.FilterMutants());
             mutationTestProcessMock.Setup(x => x.Test(It.IsAny<StrykerOptions>()))
                 .Returns(new StrykerRunResult(It.IsAny<StrykerOptions>(), It.IsAny<double>()));
 
 
 
-            var target = new StrykerRunner(initialisationMock.Object, mutationTestProcessMock.Object, reporter: reporterMock.Object);
+            var target = new StrykerRunner(initialisationMock.Object, mutationTestProcessMock.Object, fileSystemMock, reporter: reporterMock.Object);
 
             target.RunMutationTest(options);
 

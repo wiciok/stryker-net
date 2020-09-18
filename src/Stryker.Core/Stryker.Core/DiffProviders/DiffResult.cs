@@ -4,7 +4,7 @@ namespace Stryker.Core.DiffProviders
 {
     public class DiffResult
     {
-        public ICollection<string> TestFilesChanged { get; set; }
+        public bool TestsChanged { get; set; }
         public ICollection<string> ChangedFiles { get; set; }
     }
 }

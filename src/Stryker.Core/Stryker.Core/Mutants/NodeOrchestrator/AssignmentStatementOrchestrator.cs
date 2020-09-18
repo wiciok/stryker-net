@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Stryker.Core.Mutants.NodeOrchestrators
+namespace Stryker.Core.Mutants.NodeOrchestrator
 {
     internal class AssignmentStatementOrchestrator : NodeSpecificOrchestrator<AssignmentExpressionSyntax>
     {

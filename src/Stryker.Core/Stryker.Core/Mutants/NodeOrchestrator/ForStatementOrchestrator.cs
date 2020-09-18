@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Stryker.Core.Mutants.NodeOrchestrators
+namespace Stryker.Core.Mutants.NodeOrchestrator
 {
     internal class ForStatementOrchestrator: NodeSpecificOrchestrator<ForStatementSyntax>
     {
@@ -17,10 +17,10 @@ namespace Stryker.Core.Mutants.NodeOrchestrators
             }
 
             // mutate condition, if any
-            if (originalFor.Condition != null)
+            if (forStatement.Condition != null)
             {
                 forStatement = forStatement.ReplaceNode(forStatement.Condition,
-                    context.MutateNodeAndChildren(originalFor.Condition));
+                    context.MutateNodeAndChildren(forStatement.Condition));
             }
 
             // mutate the statement/block

@@ -1,5 +1,4 @@
 ﻿using LibGit2Sharp;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Shouldly;
 using Stryker.Core.DashboardCompare;
@@ -39,7 +38,7 @@ namespace Stryker.Core.UnitTest.DashboardCompare
         [Fact]
         public void DoesNotCreateNewRepositoryWhenPassedIntoConstructor()
         {
-            var options = new StrykerOptions(basePath: "C:\\", logger: new NullLogger<StrykerOptions>());
+            var options = new StrykerOptions(basePath: "C:\\");
 
             var repository = new Mock<IRepository>(MockBehavior.Strict);
 
@@ -169,7 +168,7 @@ namespace Stryker.Core.UnitTest.DashboardCompare
         [Fact]
         public void CreateRepository_Throws_InputException_When_RepositoryPath_Empty()
         {
-            static void act() => new GitInfoProvider(new StrykerOptions(diff: true), repositoryPath: string.Empty);
+            void act() => new GitInfoProvider(new StrykerOptions(diff: true), repositoryPath: string.Empty);
 
             Should.Throw<StrykerInputException>(act)
                 .Message.ShouldBe("Could not locate git repository. Unable to determine git diff to filter mutants. Did you run inside a git repo? If not please disable the --diff feature.");

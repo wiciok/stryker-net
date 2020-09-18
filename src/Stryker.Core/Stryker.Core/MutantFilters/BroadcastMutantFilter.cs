@@ -9,7 +9,6 @@ namespace Stryker.Core.MutantFilters
     public class BroadcastMutantFilter : IMutantFilter
     {
         public IEnumerable<IMutantFilter> MutantFilters { get; }
-
         public BroadcastMutantFilter(IEnumerable<IMutantFilter> mutantFilters)
         {
             MutantFilters = mutantFilters;
@@ -19,31 +18,25 @@ namespace Stryker.Core.MutantFilters
 
         public IEnumerable<Mutant> FilterMutants(IEnumerable<Mutant> mutants, FileLeaf file, StrykerOptions options)
         {
-            IEnumerable<Mutant> mutantsToTest = mutants.ToList();
+            IEnumerable<Mutant> filteredMutants = mutants;
 
-            // Then all other filters except diff filter
-            foreach (var mutantFilter in MutantFilters.Where(f => !(f is DiffMutantFilter)))
+            foreach (var mutantFilter in MutantFilters)
             {
-                // These mutants should be tested according to current filter
-                var extraMutantsToTest = mutantFilter.FilterMutants(mutantsToTest, file, options);
+                var current = mutantFilter.FilterMutants(mutants, file, options);
 
-                // All mutants that weren't filtered out by a previous filter but were by the current filter are set to Ignored
-                foreach (var skippedMutant in mutantsToTest.Except(extraMutantsToTest))
+                foreach (var skippedMutant in filteredMutants.Except(current))
                 {
-                    skippedMutant.ResultStatus = MutantStatus.Ignored;
-                    skippedMutant.ResultStatusReason = $"Removed by {mutantFilter.DisplayName}";
+                    if (skippedMutant.ResultStatus == MutantStatus.NotRun)
+                    {
+                        skippedMutant.ResultStatus = MutantStatus.Ignored;
+                        skippedMutant.ResultStatusReason = $"Removed by {mutantFilter.DisplayName}";
+                    }
                 }
 
-                mutantsToTest = extraMutantsToTest;
+                filteredMutants = current;
             }
 
-            // Diff filter goes last if it is enabled
-            if (MutantFilters.SingleOrDefault(f => f is DiffMutantFilter) is var diffFilter && diffFilter is { })
-            {
-                mutantsToTest = diffFilter.FilterMutants(mutantsToTest, file, options);
-            }
-
-            return mutantsToTest;
+            return filteredMutants;
         }
     }
 }

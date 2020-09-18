@@ -1,4 +1,4 @@
-﻿using Stryker.Core.Baseline;
+﻿using Stryker.Core.Clients;
 using Stryker.Core.DashboardCompare;
 using Stryker.Core.DiffProviders;
 using Stryker.Core.Options;
@@ -10,10 +10,10 @@ namespace Stryker.Core.MutantFilters
     public static class MutantFilterFactory
     {
         private static IDiffProvider _diffProvider;
-        private static IGitInfoProvider _gitInfoProvider;
-        private static IBaselineProvider _baselineProvider;
+        private static IGitInfoProvider _branchProvider;
+        private static IDashboardClient _dashboardClient;
 
-        public static IMutantFilter Create(StrykerOptions options, IDiffProvider diffProvider = null, IBaselineProvider baselineProvider = null, IGitInfoProvider gitInfoProvider = null)
+        public static IMutantFilter Create(StrykerOptions options, IDiffProvider diffProvider = null, IDashboardClient dashboardClient = null, IGitInfoProvider branchProvider = null)
         {
             if (options == null)
             {
@@ -21,8 +21,8 @@ namespace Stryker.Core.MutantFilters
             }
 
             _diffProvider = diffProvider ?? new GitDiffProvider(options);
-            _baselineProvider = baselineProvider ?? BaselineProviderFactory.Create(options);
-            _gitInfoProvider = gitInfoProvider ?? new GitInfoProvider(options);
+            _dashboardClient = dashboardClient ?? new DashboardClient(options);
+            _branchProvider = branchProvider ?? new GitInfoProvider(options);
 
             return new BroadcastMutantFilter(DetermineEnabledMutantFilters(options));
         }
@@ -38,7 +38,7 @@ namespace Stryker.Core.MutantFilters
 
             if (options.DiffEnabled)
             {
-                enabledFilters.Add(new DiffMutantFilter(options, _diffProvider, baselineProvider: _baselineProvider, gitInfoProvider: _gitInfoProvider));
+                enabledFilters.Add(new DiffMutantFilter(options, _diffProvider, dashboardClient: _dashboardClient, branchProvider: _branchProvider));
             }
 
             return enabledFilters;

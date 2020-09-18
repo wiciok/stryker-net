@@ -3,11 +3,11 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Stryker.Core.Mutants.NodeOrchestrators
+namespace Stryker.Core.Mutants.NodeOrchestrator
 {
     internal class MethodDeclarationOrchestrator : NodeSpecificOrchestrator<MethodDeclarationSyntax>
     {
-        protected override bool CanHandle(MethodDeclarationSyntax t)
+        protected override bool CanHandleThis(MethodDeclarationSyntax t)
         {
             return t.Body != null;
         }
@@ -27,11 +27,6 @@ namespace Stryker.Core.Mutants.NodeOrchestrators
                 return mutatedNode;
             }
 
-            if (node.Body.ContainsNodeThatVerifies(x => x.IsKind(SyntaxKind.YieldReturnStatement), false))
-            {
-                // not need to add yield return at the end of an enumeration method
-                return mutatedNode;
-            }
             if (mutatedNode.Body.Statements.Last().Kind() == SyntaxKind.ReturnStatement)
             {
                 return mutatedNode;
