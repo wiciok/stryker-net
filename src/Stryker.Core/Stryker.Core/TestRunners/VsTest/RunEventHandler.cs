@@ -148,6 +148,11 @@ namespace Stryker.Core.TestRunners.VsTest
                     throw new ArgumentOutOfRangeException(nameof(level), level, null);
             }
             _logger.LogTrace($"{_runnerId}: [{levelFinal}] {message}");
+
+            if (levelFinal == LogLevel.Error && message == "Cancelling the operation as requested.")
+            {
+                throw new Exception("Testrunner crashed");
+            }
         }
 
         public void Dispose()
