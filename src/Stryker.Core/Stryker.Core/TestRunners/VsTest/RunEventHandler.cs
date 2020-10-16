@@ -151,7 +151,7 @@ namespace Stryker.Core.TestRunners.VsTest
 
             if (levelFinal == LogLevel.Error && message == "Cancelling the operation as requested.")
             {
-                throw new Exception("Testrunner crashed");
+                _logger.LogWarning("VSTest crashed, try increasing the timeout with -t 30000 to decrease the chance of this happening.");
             }
         }
 
